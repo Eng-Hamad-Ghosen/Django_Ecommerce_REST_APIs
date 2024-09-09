@@ -6,3 +6,10 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model=Product
         fields='__all__'
+        # exclude =['user']
+        extra_kwargs={
+                    'user' : {
+                                'write_only' : False ,
+                                'required' : False
+                             } 
+                    }
