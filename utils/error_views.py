@@ -8,7 +8,7 @@ def handler404(request,exception):
 
 
 def handler500(request):
-    message = {'Internal Server Error, Developed_By_Hamad'}
+    message = 'Internal Server Error, Developed_By_Hamad'
     response=JsonResponse(data={'error':message})
     response.status_code = 500
     return response
