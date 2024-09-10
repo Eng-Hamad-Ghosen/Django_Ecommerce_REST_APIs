@@ -22,3 +22,7 @@ urlpatterns = [
     path('products/',include('product.urls')),
     path('api-auth/', include('rest_framework.urls')),
 ]
+
+handler404 = 'utils.error_views.handler404'
+
+handler500 = 'utils.error_views.handler500'

@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-86pv!yk-rqyk7o80)^qt9l2)95$j_(6t)qapj=jv_k#quw8t!r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost','127.0.0.1']
 
 
 # Application definition
@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     
     #myApps
     'rest_framework',
-    'product',
+    'product.apps.ProductConfig',
     'django_filters',
 ]
 
