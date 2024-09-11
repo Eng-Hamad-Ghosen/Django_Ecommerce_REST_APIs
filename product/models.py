@@ -3,6 +3,18 @@ from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Create your models here.
+
+
+# class Category(models.TextChoices):
+#     COMPUTER ='COMPUTER'
+#     FOOD ='FOOD'
+#     KIDS ='KIDS'
+#     HOME ='HOME'
+# 
+# category=models.CharField(max_length=50,choices=Category.choices)
+
+
+
 class Category(models.Model):
     name = models.CharField(max_length=50)
     def __str__(self):

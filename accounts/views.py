@@ -8,8 +8,8 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 # Create your views here.
 
-@api_view(['POST','GET'])
-def register(request):
+@api_view(['POST',])
+def register(request):#Signup
     serializer = SignupSerializer(data=request.data)
     if serializer :
         print('0')
