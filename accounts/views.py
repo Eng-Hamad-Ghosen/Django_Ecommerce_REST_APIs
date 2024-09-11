@@ -43,3 +43,25 @@ def user_Details(request):
     user=User.objects.get(username=request.user)
     serializer =UserSerializer(user)
     return Response({'data':serializer.data},status=status.HTTP_200_OK)
+
+@api_view(['PUT',])
+@permission_classes([IsAuthenticated])
+def user_Update(request):
+    print(request.data['first_name'])
+    print(request.user.last_name)
+    user=User.objects.get(username=request.user)
+    print(user.username)
+    print(str(request.user))
+    serializer =UserSerializer(user,request.data)
+    if serializer.is_valid():
+        if str(user.username)==str(request.user):
+            if not 'password' in request.data:
+                serializer.save()
+                return Response({'Note':'Without Edit Your Password','data':serializer.data},status=status.HTTP_200_OK)
+            else:
+                serializer.save(password=make_password(request.data['password']))
+                return Response({'Note':'With Edit Your Password','data':serializer.data},status=status.HTTP_200_OK)
+        else:
+            return Response({'Error':'Sorry! Can\'t Edit This Profile'},status=status.HTTP_403_FORBIDDEN)
+    return Response(serializer.errors)
+            
