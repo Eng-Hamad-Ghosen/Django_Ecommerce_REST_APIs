@@ -1,11 +1,11 @@
 from rest_framework.decorators import api_view,permission_classes
-from .models import Product
+from .models import Product, Review
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import ProductSerializer
+from .serializers import ProductSerializer, ReviewSerializer
 import django_filters
 from .filters import ProductFilter
-
+from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from rest_framework.pagination import PageNumberPagination
 
@@ -72,3 +72,45 @@ def product_id(request, id):
         else:
             return Response({'Error':'Sorry! You Can\'t Delete This Product'},status=status.HTTP_403_FORBIDDEN)
             
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def create_review(request, id):
+    product = Product.objects.get(id=id)
+    user=User.objects.get(username=request.user)
+    print('111')
+    if 'rating' in request.data:
+        if Review.objects.filter(user=user,product=product).exists():
+            print('222')
+            new_review= Review.objects.get(user=user,product=product)
+            if request.data['rating']>=1 and request.data['rating']<=5:
+                new_review.rating=request.data['rating']
+            else:
+                return Response({'errors':{'rating':'Ensure this value is [less than or equal to 5] OR [greater than or equal to 1].'}})
+            if 'comment' in request.data :
+                new_review.comment=request.data['comment']
+            new_review.save()
+            serializer = ReviewSerializer(new_review)
+            return Response({'Your New Review':serializer.data,'Note':'The Review Is ALready Exists, And The Update is Done'},status=status.HTTP_200_OK)
+        else:
+            serializer = ReviewSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save(user=request.user,product=product)
+                return Response({'status':'Create Done','data':serializer.data}, status=status.HTTP_201_CREATED)
+            else:
+                return Response({'error':serializer.errors})
+    else:
+        return Response({'error':'rating is required'})
+    
+    
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def delete_review(request,id):
+    product = Product.objects.get(id=id)
+    user=User.objects.get(username=request.user)
+    try:
+        review= Review.objects.get(user=user,product=product)
+        review.delete()
+        return Response({'Message':'Delete Done'},status=status.HTTP_200_OK)
+    except Review.DoesNotExist:
+        return Response({'Error':'Not Found Your Review'})
