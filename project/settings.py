@@ -44,7 +44,9 @@ INSTALLED_APPS = [
     'product.apps.ProductConfig',
     'django_filters',
     'accounts.apps.AccountsConfig',
+    'order.apps.OrderConfig',
     'rest_framework_simplejwt',
+    'django_countries',
 ]
 
 
