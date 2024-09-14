@@ -20,14 +20,15 @@ class PaymentMode(models.TextChoices):
     
 
 class Order(models.Model):
-    city = CountryField(blank=True, null=True)
+    # city = CountryField(blank=True, null=True)
+    city = models.CharField(max_length=50, blank=True, null=True)
     zip_code = models.CharField(max_length=100 ,default='',blank=True)
     street = models.CharField(max_length=100 ,default='',blank=True)
     phone = models.CharField(max_length=100 ,default='',blank=True)
     total_amount = models.IntegerField(default=0)
-    payment_status= models.CharField(max_length=30, choices=PaymentStatus.choices, default=PaymentStatus.UNPAID)
-    payment_mode= models.CharField(max_length=30, choices=PaymentMode.choices,default=PaymentMode.CASH_ON_DELEVERD)
-    order_status= models.CharField(max_length=30, choices=OrderStatus.choices,default=OrderStatus.PROCESSING)
+    payment_status = models.CharField(max_length=30, choices=PaymentStatus.choices, default=PaymentStatus.UNPAID)
+    payment_mode = models.CharField(max_length=30, choices=PaymentMode.choices,default=PaymentMode.CASH_ON_DELEVERD)
+    order_status = models.CharField(max_length=30, choices=OrderStatus.choices,default=OrderStatus.PROCESSING)
     user = models.ForeignKey(User,null=True,on_delete=models.SET_NULL)
     created_at = models.DateTimeField(auto_now_add=True)
     
@@ -39,11 +40,11 @@ class OrderItem(models.Model):
     product= models.ForeignKey(Product,null=True,on_delete=models.SET_NULL)
     order= models.ForeignKey('Order' ,null=True,on_delete=models.CASCADE ,related_name='orderitems')
     name = models.CharField(max_length=200 , default='', blank=True)
-    quntity = models.IntegerField(default=1)
+    quantity = models.IntegerField(default=1)
     price = models.DecimalField(max_digits=7,decimal_places=2, blank=True)
 
-    
+
     def __str__(self):
-        return str(self.name)
+        return self.name
 
  

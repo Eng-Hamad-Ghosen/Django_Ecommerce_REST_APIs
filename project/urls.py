@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('products/',include('product.urls')),
     path('accounts/',include('accounts.urls')),
+    path('orders/',include('order.urls')),
     # path('',)
     path('api-auth/', include('rest_framework.urls')),
     path('api-token/',TokenObtainPairView.as_view()),

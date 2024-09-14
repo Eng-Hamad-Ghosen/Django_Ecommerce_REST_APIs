@@ -58,7 +58,7 @@ REST_FRAMEWORK = {
 
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=10),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=50),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=5),
     'BLACKLIST_AFTER_ROTATION':True,
     "AUTH_HEADER_TYPES": ("Bearer",),
@@ -80,7 +80,7 @@ MIDDLEWARE = [
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
 EMAIL_HOST_USER = 'c7769e4d9677e3'
-EMAIL_HOST_PASSWORD = 'b4b3b9dff33227'
+EMAIL_HOST_PASSWORD = ''
 EMAIL_PORT = '2525'
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = False 
